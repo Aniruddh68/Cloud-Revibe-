@@ -1,4 +1,4 @@
-import { Bus, Operator, Seat, SeatStatus, PriceDay, User, Transaction } from '../types';
+import { Bus, Operator, Seat, SeatStatus, PriceDay, User, Transaction, Offer, Testimonial } from '../types';
 
 const operators: Operator[] = [
   { operator_id: 'OP01', name: 'Blue Horizon Travels', safety_score: 92, punctuality_score: 88, cleanliness_score: 95, trips_completed_30d: 150, primo_flag: true },
@@ -144,4 +144,26 @@ export const getMockUser = async (): Promise<User> => {
         transaction_history: mockTransactions,
     };
     return new Promise(resolve => setTimeout(() => resolve(mockUser), 200));
+};
+
+export const getPopularRoutes = async (): Promise<{ from: string; to: string }[]> => {
+    return new Promise(resolve => setTimeout(() => resolve(popularRoutes), 200));
+};
+
+export const getOffers = async (): Promise<Offer[]> => {
+    const offers: Offer[] = [
+        { offer_id: 'OFR01', code: 'BUS200', title: 'Flat ₹200 Off', description: 'On your first bus booking. Use code BUS200.', icon: 'new_user' },
+        { offer_id: 'OFR02', code: 'MILES10', title: '10% Instant Discount', description: 'Up to ₹150 on select routes. T&C apply.', icon: 'discount' },
+        { offer_id: 'OFR03', code: 'WALLET50', title: '₹50 Wallet Cashback', description: 'Pay with Miles Wallet and get cashback.', icon: 'wallet' },
+    ];
+    return new Promise(resolve => setTimeout(() => resolve(offers), 300));
+};
+
+export const getTestimonials = async (): Promise<Testimonial[]> => {
+    const testimonials: Testimonial[] = [
+        { testimonial_id: 'TST01', user_name: 'Anjali R.', rating: 5, comment: 'Booking was incredibly smooth and fast. The bus was clean and on time. Highly recommended!' },
+        { testimonial_id: 'TST02', user_name: 'Vikram S.', rating: 4, comment: 'Great service and comfortable journey. The live tracking feature is very helpful.' },
+        { testimonial_id: 'TST03', user_name: 'Pooja M.', rating: 5, comment: 'I use Miles Travels for all my business trips. They have the best prices and reliable operators.' },
+    ];
+    return new Promise(resolve => setTimeout(() => resolve(testimonials), 350));
 };

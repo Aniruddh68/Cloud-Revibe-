@@ -18,15 +18,16 @@ export const PriceCalendar: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-md border border-slate-100">
-      <h3 className="text-lg font-semibold text-slate-700 mb-4">Lowest Fares This Week</h3>
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+      <h3 className="text-xl font-bold text-gray-800 mb-4">Lowest Fares This Week</h3>
       {isLoading ? (
-        <div className="text-center text-slate-500">Loading prices...</div>
+        <div className="text-center text-gray-500 py-4">Loading prices...</div>
       ) : (
         <div className="grid grid-cols-5 md:grid-cols-10 gap-2">
           {prices.map((day, index) => (
-            <div key={index} className="text-center p-3 border border-slate-200 rounded-lg bg-slate-50 hover:bg-brand-light hover:border-brand-primary transition cursor-pointer">
-              <div className="font-bold text-slate-800">{day.date}</div>
+            <div key={index} className="text-center p-3 border border-gray-200 rounded-lg bg-gray-50 hover:bg-brand-light hover:border-brand-primary transition-all duration-200 cursor-pointer group">
+              <div className="font-bold text-gray-800 group-hover:text-brand-primary">{day.date.split(' ')[0]}</div>
+              <div className="text-xs text-gray-500">{day.date.split(' ')[1]}</div>
               <div className="text-sm text-green-700 font-semibold mt-1">₹{day.min_price}</div>
             </div>
           ))}

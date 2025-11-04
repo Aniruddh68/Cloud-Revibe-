@@ -11,21 +11,18 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage, user })
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
-    const NavLink = ({ page, children }: { page: 'SEARCH' | 'MY_TRIPS' | 'ACCOUNT'; children: React.ReactNode }) => {
-        const isActive = currentPage === page;
+    const NavLink = ({ page, children, icon }: { page: 'SEARCH' | 'MY_TRIPS' | 'ACCOUNT'; children: React.ReactNode, icon: React.ReactNode }) => {
         return (
             <button
                 onClick={() => { onNavigate(page); setIsMenuOpen(false); }}
-                className={`w-full text-left px-4 py-2 text-sm rounded-md transition-colors ${
-                    isActive ? 'bg-brand-primary text-white' : 'text-slate-700 hover:bg-slate-100'
-                }`}
+                className="w-full text-left px-3 py-2 text-sm rounded-md transition-colors flex items-center gap-3 text-gray-700 hover:bg-gray-100"
             >
-                {children}
+                {icon}
+                <span>{children}</span>
             </button>
         );
     };
     
-    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -37,7 +34,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage, user })
     }, []);
 
     return (
-        <header className="bg-white shadow-sm sticky top-0 z-50">
+        <header className="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50 border-b border-gray-200">
             <div className="container mx-auto px-4 py-3 flex justify-between items-center">
                 <div className="flex items-center gap-2 cursor-pointer" onClick={() => onNavigate('SEARCH')}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-brand-primary" viewBox="0 0 24 24" fill="currentColor">
@@ -48,30 +45,36 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage, user })
                 <nav className="flex items-center gap-4">
                      <button
                         onClick={() => onNavigate('SEARCH')}
-                        className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-                            currentPage === 'SEARCH' ? 'bg-brand-light text-brand-primary' : 'text-slate-600 hover:bg-slate-100'
+                        className={`hidden sm:block px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                            currentPage === 'SEARCH' ? 'text-brand-primary font-semibold' : 'text-gray-600 hover:text-brand-primary'
                         }`}
                     >
                         Search Buses
                     </button>
                     {user && (
                         <div className="relative" ref={menuRef}>
-                            <button onClick={() => setIsMenuOpen(prev => !prev)} className="h-10 w-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-600 hover:bg-slate-200 transition">
+                            <button onClick={() => setIsMenuOpen(prev => !prev)} className="h-10 w-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200 transition">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                             </button>
                             {isMenuOpen && (
-                                <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-slate-100 p-2">
-                                    <div className="px-4 py-2 border-b mb-2">
-                                        <p className="font-semibold text-slate-800">{user.name}</p>
-                                        <p className="text-xs text-slate-500">{user.email}</p>
+                                <div className="absolute right-0 mt-2 w-60 bg-white rounded-lg shadow-xl border border-gray-100 p-2">
+                                    <div className="px-3 py-2 border-b mb-2">
+                                        <p className="font-semibold text-gray-800">{user.name}</p>
+                                        <p className="text-xs text-gray-500 truncate">{user.email}</p>
                                     </div>
-                                    <NavLink page="MY_TRIPS">My Trips</NavLink>
-                                    <NavLink page="ACCOUNT">My Account</NavLink>
+                                    {/* FIX: Added children prop to NavLink component to provide the link text. */}
+                                    {/* FIX: Added children prop to NavLink component to provide the link text. */}
+                                    <NavLink page="MY_TRIPS" icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>}>My Trips</NavLink>
+                                    {/* FIX: Added children prop to NavLink component to provide the link text. */}
+                                    {/* FIX: Added children prop to NavLink component to provide the link text. */}
+                                    <NavLink page="ACCOUNT" icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>}>My Account</NavLink>
+                                    <div className="border-t my-2"></div>
                                     <button
                                         onClick={() => alert('Logged out!')}
-                                        className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-md transition-colors"
+                                        className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors flex items-center gap-3"
                                     >
-                                        Logout
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                                        <span>Logout</span>
                                     </button>
                                 </div>
                             )}

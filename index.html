@@ -6,16 +6,22 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Miles Travels - Bus Booking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
             colors: {
-              'brand-primary': '#1e40af', // A deep blue
-              'brand-secondary': '#f97316', // A vibrant orange
-              'brand-light': '#dbeafe',
-              'brand-dark': '#1e3a8a',
+              'brand-primary': '#2563eb', // A brighter, more modern blue (blue-600)
+              'brand-secondary': '#f97316', // Orange for highlights (orange-500)
+              'brand-light': '#eff6ff', // Lighter blue for backgrounds (blue-50)
+              'brand-dark': '#1e40af', // Darker blue for gradients/accents (blue-800)
             },
           },
         },
@@ -31,7 +37,7 @@
 }
 </script>
 </head>
-  <body class="bg-slate-50">
+  <body class="bg-gray-50">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

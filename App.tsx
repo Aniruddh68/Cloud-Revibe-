@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useEffect } from 'react';
 import { Bus, Seat, Booking, User } from './types';
 import { getMockUser } from './services/mockApiService';
@@ -78,35 +79,50 @@ const App: React.FC = () => {
   }, []);
 
   const renderPage = () => {
+    let pageContent;
+    let wrapInContainer = true;
+
     switch (currentPage) {
       case 'SEARCH':
-        return <SearchPage onBusSelect={handleBusSelect} />;
+        pageContent = <SearchPage onBusSelect={handleBusSelect} />;
+        wrapInContainer = false; // SearchPage manages its own full-width layout.
+        break;
       case 'DETAILS':
         if (!selectedBus) {
           setCurrentPage('SEARCH');
           return null;
         }
-        return <BusDetailPage bus={selectedBus} onProceedToCheckout={handleProceedToCheckout} />;
+        pageContent = <BusDetailPage bus={selectedBus} onProceedToCheckout={handleProceedToCheckout} />;
+        break;
       case 'CHECKOUT':
         if (!selectedBus || selectedSeats.length === 0) {
           setCurrentPage('SEARCH');
           return null;
         }
-        return <CheckoutPage bus={selectedBus} seats={selectedSeats} onConfirmBooking={handleConfirmBooking} />;
+        pageContent = <CheckoutPage bus={selectedBus} seats={selectedSeats} onConfirmBooking={handleConfirmBooking} />;
+        break;
       case 'MY_TRIPS':
-        return <MyTripsPage bookings={bookings} onCancelBooking={handleCancelBooking} />
+        pageContent = <MyTripsPage bookings={bookings} onCancelBooking={handleCancelBooking} />;
+        break;
       case 'ACCOUNT':
         if (!currentUser) return <div className="text-center p-8">Loading account details...</div>;
-        return <MyAccountPage user={currentUser} onUpdateUser={handleUpdateUser} />;
+        pageContent = <MyAccountPage user={currentUser} onUpdateUser={handleUpdateUser} />;
+        break;
       default:
-        return <SearchPage onBusSelect={handleBusSelect} />;
+        pageContent = <SearchPage onBusSelect={handleBusSelect} />;
+        wrapInContainer = false;
     }
+
+    if (wrapInContainer) {
+      return <div className="container mx-auto px-4 py-8">{pageContent}</div>;
+    }
+    return pageContent;
   };
 
   return (
-    <div className="min-h-screen flex flex-col font-sans text-slate-800">
+    <div className="min-h-screen flex flex-col font-sans text-gray-800">
       <Header onNavigate={navigateTo} currentPage={currentPage} user={currentUser} />
-      <main className="flex-grow container mx-auto px-4 py-8">
+      <main className="flex-grow">
         {renderPage()}
       </main>
       <Footer />

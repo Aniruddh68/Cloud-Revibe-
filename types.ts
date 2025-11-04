@@ -69,3 +69,18 @@ export interface PriceDay {
   date: string;
   min_price: number;
 }
+
+export interface Offer {
+  offer_id: string;
+  code: string;
+  title: string;
+  description: string;
+  icon: 'discount' | 'wallet' | 'new_user';
+}
+
+export interface Testimonial {
+  testimonial_id: string;
+  user_name: string;
+  rating: number; // e.g., 4 or 5
+  comment: string;
+}
