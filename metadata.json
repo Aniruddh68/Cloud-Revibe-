@@ -1,0 +1,5 @@
+{
+  "name": "Miles Travels - Bus Booking",
+  "description": "A modern, responsive web application for searching, booking, and managing bus tickets, inspired by the Miles Travels specification. It features seat selection, filtering, and a clean user interface.",
+  "requestFramePermissions": []
+}
