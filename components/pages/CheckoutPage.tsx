@@ -1,10 +1,12 @@
 
 import React, { useState } from 'react';
-import { Bus, Seat } from '../../types';
+import { Bus, Seat, Point } from '../../types';
 
 interface CheckoutPageProps {
   bus: Bus;
   seats: Seat[];
+  boardingPoint: Point;
+  droppingPoint: Point;
   onConfirmBooking: () => void;
 }
 
@@ -16,7 +18,7 @@ const PaymentOption: React.FC<{name: string, icon: React.ReactNode, active: bool
 )
 
 
-const CheckoutPage: React.FC<CheckoutPageProps> = ({ bus, seats, onConfirmBooking }) => {
+const CheckoutPage: React.FC<CheckoutPageProps> = ({ bus, seats, boardingPoint, droppingPoint, onConfirmBooking }) => {
   const [activePayment, setActivePayment] = useState('card');
   const totalFare = seats.length * bus.fare;
   const taxes = totalFare * 0.05;
@@ -101,6 +103,8 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ bus, seats, onConfirmBookin
                   <p className="font-semibold">{bus.operator_details.name}</p>
                   <p className="text-sm text-gray-500">{bus.route_from} → {bus.route_to}</p>
                   <p className="text-sm text-gray-500">Seats: <span className="font-medium text-gray-700">{seats.map(s => s.id).join(', ')}</span></p>
+                  <p className="text-sm text-gray-500">Boarding: <span className="font-medium text-gray-700">{boardingPoint.name} ({boardingPoint.time})</span></p>
+                  <p className="text-sm text-gray-500">Dropping: <span className="font-medium text-gray-700">{droppingPoint.name} ({droppingPoint.time})</span></p>
               </div>
               <div className="border-t my-4"></div>
               <div className="space-y-2">

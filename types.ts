@@ -9,6 +9,20 @@ export interface Operator {
   primo_flag: boolean;
 }
 
+export interface Point {
+  id: string;
+  name: string;
+  time: string;
+}
+
+export interface Review {
+  review_id: string;
+  user_name: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
+
 export interface Bus {
   bus_id: string;
   operator_id: string;
@@ -25,6 +39,10 @@ export interface Bus {
   live_lat?: number;
   live_lng?: number;
   seat_layout?: Seat[][];
+  photos: string[];
+  reviews: Review[];
+  boarding_points: Point[];
+  dropping_points: Point[];
 }
 
 export enum SeatStatus {
@@ -45,6 +63,8 @@ export interface Booking {
   seats: Seat[];
   status: 'CONFIRMED' | 'CANCELLED' | 'COMPLETED';
   fare_paid: number;
+  boarding_point: Point;
+  dropping_point: Point;
 }
 
 export interface Transaction {

@@ -1,4 +1,4 @@
-import { Bus, Operator, Seat, SeatStatus, PriceDay, User, Transaction, Offer, Testimonial } from '../types';
+import { Bus, Operator, Seat, SeatStatus, PriceDay, User, Transaction, Offer, Testimonial, Point, Review } from '../types';
 
 const operators: Operator[] = [
   { operator_id: 'OP01', name: 'Blue Horizon Travels', safety_score: 92, punctuality_score: 88, cleanliness_score: 95, trips_completed_30d: 150, primo_flag: true },
@@ -36,11 +36,71 @@ const generateSeatLayout = (): Seat[][] => {
   return layout;
 }
 
+const generatePoints = (departureTime: Date, count: number, prefix: string): Point[] => {
+    const points: Point[] = [];
+    let currentTime = new Date(departureTime);
+    for(let i = 0; i < count; i++) {
+        currentTime.setMinutes(currentTime.getMinutes() + i * 15 + (i > 0 ? 10: 0));
+        points.push({
+            id: `${prefix}${i}`,
+            name: `${prefix} Point ${i+1}`,
+            time: currentTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
+        });
+    }
+    return points;
+}
+
+const generateReviews = (): Review[] => {
+    const reviews: Review[] = [];
+    const names = ['Ravi', 'Sunita', 'Amit', 'Priya', 'Mohan'];
+    const comments = [
+        'Very comfortable journey!', 'Bus was on time.', 'Clean and hygienic.', 
+        'Staff was very helpful.', 'Great experience overall.'
+    ];
+    for(let i = 0; i < 5; i++) {
+        const date = new Date();
+        date.setDate(date.getDate() - Math.floor(Math.random() * 30));
+        reviews.push({
+            review_id: `REV${i}`,
+            user_name: `${names[Math.floor(Math.random() * names.length)]} K.`,
+            rating: Math.floor(Math.random() * 2) + 4, // 4 or 5
+            comment: comments[Math.floor(Math.random() * comments.length)],
+            date: date.toISOString(),
+        });
+    }
+    return reviews;
+}
+
+const generatePhotos = (bus_id: string): string[] => {
+    return [
+        `https://picsum.photos/seed/${bus_id}_ext/800/600`,
+        `https://picsum.photos/seed/${bus_id}_int/800/600`,
+        `https://picsum.photos/seed/${bus_id}_seat/800/600`,
+        `https://picsum.photos/seed/${bus_id}_side/800/600`,
+    ];
+}
+
 
 // New function to generate mock buses for a specific route
 const generateBusesForRoute = (from: string, to: string, date: string): Bus[] => {
     const buses: Bus[] = [];
     const numBuses = Math.floor(Math.random() * 5) + 4; // Generate 4 to 8 buses
+
+    // Base coordinates for cities to make tracking more realistic
+    const cityCoords: { [key: string]: { lat: number, lng: number } } = {
+      'mumbai': { lat: 19.0760, lng: 72.8777 },
+      'pune': { lat: 18.5204, lng: 73.8567 },
+      'bangalore': { lat: 12.9716, lng: 77.5946 },
+      'chennai': { lat: 13.0827, lng: 80.2707 },
+      'delhi': { lat: 28.7041, lng: 77.1025 },
+      'jaipur': { lat: 26.9124, lng: 75.7873 },
+      'hyderabad': { lat: 17.3850, lng: 78.4867 },
+      'manali': { lat: 32.2432, lng: 77.1892 },
+      'goa': { lat: 15.2993, lng: 74.1240 },
+      'bhopal': { lat: 23.2599, lng: 77.4126 },
+    };
+
+    const fromCoords = cityCoords[from.toLowerCase()] || { lat: 20.5937, lng: 78.9629 }; // Default to India center
 
     for (let i = 0; i < numBuses; i++) {
         const operator = operators[Math.floor(Math.random() * operators.length)];
@@ -51,9 +111,11 @@ const generateBusesForRoute = (from: string, to: string, date: string): Bus[] =>
 
         const departureTime = new Date(`${date}T${String(departureHour).padStart(2, '0')}:${String(departureMinute).padStart(2, '0')}:00+05:30`);
         const arrivalTime = new Date(departureTime.getTime() + (durationHours * 60 + durationMinutes) * 60000);
+        
+        const bus_id = `BUS${from.slice(0,1)}${to.slice(0,1)}${i}${Math.floor(Math.random()*100)}`;
 
         const bus: Bus = {
-            bus_id: `BUS${from.slice(0,1)}${to.slice(0,1)}${i}${Math.floor(Math.random()*100)}`,
+            bus_id: bus_id,
             operator_id: operator.operator_id,
             operator_details: operator,
             route_from: from,
@@ -71,6 +133,12 @@ const generateBusesForRoute = (from: string, to: string, date: string): Bus[] =>
                 operator.primo_flag ? ['Restroom'] : []
             ).filter((v, i, a) => a.indexOf(v) === i), // remove duplicates
             seat_layout: generateSeatLayout(),
+            photos: generatePhotos(bus_id),
+            reviews: generateReviews(),
+            boarding_points: generatePoints(departureTime, 4, from.slice(0,3).toUpperCase()),
+            dropping_points: generatePoints(arrivalTime, 4, to.slice(0,3).toUpperCase()),
+            live_lat: fromCoords.lat + (Math.random() - 0.5) * 0.05, // Add live location
+            live_lng: fromCoords.lng + (Math.random() - 0.5) * 0.05,
         };
         buses.push(bus);
     }
@@ -92,7 +160,7 @@ export const searchBuses = async (from: string, to: string, date: string): Promi
   // A simple check to see if it's a known route, otherwise generate something.
   const isPopular = popularRoutes.some(r => r.from.toLowerCase() === from.toLowerCase() && r.to.toLowerCase() === to.toLowerCase());
 
-  if (isPopular || (from === 'Bhopal' && to === 'Delhi')) { 
+  if (isPopular || (from && to)) { 
       const buses = generateBusesForRoute(from, to, date);
       return new Promise(resolve => setTimeout(() => resolve(buses), 500));
   } else {
@@ -159,11 +227,27 @@ export const getOffers = async (): Promise<Offer[]> => {
     return new Promise(resolve => setTimeout(() => resolve(offers), 300));
 };
 
+// FIX: Replaced malformed function with a valid mock implementation that returns valid Testimonial objects and a Promise.
 export const getTestimonials = async (): Promise<Testimonial[]> => {
     const testimonials: Testimonial[] = [
-        { testimonial_id: 'TST01', user_name: 'Anjali R.', rating: 5, comment: 'Booking was incredibly smooth and fast. The bus was clean and on time. Highly recommended!' },
-        { testimonial_id: 'TST02', user_name: 'Vikram S.', rating: 4, comment: 'Great service and comfortable journey. The live tracking feature is very helpful.' },
-        { testimonial_id: 'TST03', user_name: 'Pooja M.', rating: 5, comment: 'I use Miles Travels for all my business trips. They have the best prices and reliable operators.' },
+        { 
+            testimonial_id: 'TEST01', 
+            user_name: 'Anjali P.', 
+            rating: 5, 
+            comment: 'Booking was so easy and the journey was very comfortable. Highly recommended!' 
+        },
+        { 
+            testimonial_id: 'TEST02', 
+            user_name: 'Vikram S.', 
+            rating: 4, 
+            comment: 'Good service, the bus was on time. The app is also very user-friendly.' 
+        },
+        { 
+            testimonial_id: 'TEST03', 
+            user_name: 'Rohan M.', 
+            rating: 5, 
+            comment: 'I travel frequently for work and Miles Travels is my go-to for bus tickets. Never had an issue.' 
+        },
     ];
     return new Promise(resolve => setTimeout(() => resolve(testimonials), 350));
 };

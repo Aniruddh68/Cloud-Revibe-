@@ -32,7 +32,7 @@ export const BusCard: React.FC<BusCardProps> = ({ bus, onSelect, isDetailView = 
 
   return (
     <div 
-      className={`bg-white rounded-xl border border-gray-200 p-4 transition-all duration-300 flex flex-col sm:flex-row gap-4 ${!isDetailView ? 'hover:shadow-lg hover:border-brand-primary cursor-pointer' : 'shadow-sm'}`} 
+      className={`bg-white rounded-xl border border-gray-200 p-4 transition-all duration-300 flex flex-col sm:flex-row gap-4 ${!isDetailView ? 'hover:shadow-lg hover:border-brand-primary cursor-pointer hover:-translate-y-1' : 'shadow-sm'}`} 
       onClick={onSelect}>
       
       {/* Main content: Operator, Timings, Amenities */}

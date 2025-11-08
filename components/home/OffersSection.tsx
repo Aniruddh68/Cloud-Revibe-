@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { getOffers } from '../../services/mockApiService';
 import { Offer } from '../../types';
@@ -57,7 +58,15 @@ export const OffersSection: React.FC = () => {
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
             <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">Exclusive Offers</h3>
             <div className="space-y-4">
-                {offers.map(offer => <OfferCard key={offer.offer_id} offer={offer} />)}
+                {offers.map((offer, index) => (
+                    <div 
+                        key={offer.offer_id} 
+                        className="animate-fade-in-down opacity-0" 
+                        style={{ animationDelay: `${index * 100}ms` }}
+                    >
+                        <OfferCard offer={offer} />
+                    </div>
+                ))}
             </div>
         </div>
     );

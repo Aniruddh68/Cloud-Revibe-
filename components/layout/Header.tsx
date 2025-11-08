@@ -62,11 +62,8 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, currentPage, user })
                                         <p className="font-semibold text-gray-800">{user.name}</p>
                                         <p className="text-xs text-gray-500 truncate">{user.email}</p>
                                     </div>
-                                    {/* FIX: Added children prop to NavLink component to provide the link text. */}
-                                    {/* FIX: Added children prop to NavLink component to provide the link text. */}
+                                    {/* FIX: Added children prop to NavLink components to provide the link text. */}
                                     <NavLink page="MY_TRIPS" icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>}>My Trips</NavLink>
-                                    {/* FIX: Added children prop to NavLink component to provide the link text. */}
-                                    {/* FIX: Added children prop to NavLink component to provide the link text. */}
                                     <NavLink page="ACCOUNT" icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>}>My Account</NavLink>
                                     <div className="border-t my-2"></div>
                                     <button

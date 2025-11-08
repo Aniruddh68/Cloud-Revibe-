@@ -56,7 +56,14 @@ const SearchPage: React.FC<SearchPageProps> = ({ onBusSelect }) => {
 
   useEffect(() => {
     const womenOnlyFilterActive = activeFilters.includes('Women Only Seats');
-    const amenityFilters = activeFilters.filter(f => f !== 'Women Only Seats');
+    
+    const arrivalTimeFilters = activeFilters.filter(f => 
+        ['Morning', 'Afternoon', 'Evening'].includes(f)
+    );
+    
+    const amenityFilters = activeFilters.filter(f => 
+        !['Women Only Seats', 'Morning', 'Afternoon', 'Evening'].includes(f)
+    );
 
     let newFilteredBuses = [...buses];
 
@@ -76,6 +83,20 @@ const SearchPage: React.FC<SearchPageProps> = ({ onBusSelect }) => {
       );
     }
     
+    // Apply arrival time filters
+    if (arrivalTimeFilters.length > 0) {
+      newFilteredBuses = newFilteredBuses.filter(bus => {
+        const arrivalHour = new Date(bus.arrival_time).getHours();
+        
+        return arrivalTimeFilters.some(filter => {
+          if (filter === 'Morning') return arrivalHour >= 0 && arrivalHour < 12; // Before 12 PM
+          if (filter === 'Afternoon') return arrivalHour >= 12 && arrivalHour < 17; // 12 PM to 5 PM
+          if (filter === 'Evening') return arrivalHour >= 17 && arrivalHour < 24; // 5 PM onwards
+          return false;
+        });
+      });
+    }
+
     setFilteredBuses(newFilteredBuses);
   }, [activeFilters, buses]);
 

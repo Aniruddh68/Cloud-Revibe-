@@ -53,7 +53,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({ buses, isLoading, 
 
   if (!searchPerformed) {
     return (
-      <div className="text-center py-16 px-6 bg-white rounded-xl shadow-sm border border-gray-200">
+      <div className="text-center py-16 px-6 bg-white rounded-xl shadow-sm border border-gray-200 animate-fade-in-down">
         <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-16 w-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
         <h3 className="mt-4 text-xl font-semibold text-gray-700">Find your perfect trip</h3>
         <p className="mt-1 text-gray-500">Enter your travel details above to start searching for buses.</p>
@@ -63,7 +63,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({ buses, isLoading, 
 
   if (buses.length === 0) {
     return (
-      <div className="text-center py-16 px-6 bg-white rounded-xl shadow-sm border border-gray-200">
+      <div className="text-center py-16 px-6 bg-white rounded-xl shadow-sm border border-gray-200 animate-fade-in-down">
         <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-16 w-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
         <h3 className="mt-4 text-xl font-semibold text-gray-700">No buses found</h3>
         <p className="mt-1 text-gray-500">Try adjusting your filters or search for a different date.</p>
@@ -92,16 +92,19 @@ export const SearchResults: React.FC<SearchResultsProps> = ({ buses, isLoading, 
         <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-lg">
           <span className="text-sm text-gray-600 hidden sm:block ml-2">Sort by:</span>
           {/* FIX: Added children to SortButton components to provide their labels. */}
-          {/* FIX: Added children to SortButton components to provide their labels. */}
           <SortButton type="departure">Departure</SortButton>
-          {/* FIX: Added children to SortButton components to provide their labels. */}
           <SortButton type="duration">Duration</SortButton>
-          {/* FIX: Added children to SortButton components to provide their labels. */}
           <SortButton type="fare">Price</SortButton>
         </div>
       </div>
-      {sortedBuses.map(bus => (
-        <BusCard key={bus.bus_id} bus={bus} onSelect={() => onBusSelect(bus)} />
+      {sortedBuses.map((bus, index) => (
+        <div 
+          key={bus.bus_id}
+          className="animate-fade-in-down opacity-0"
+          style={{ animationDelay: `${index * 100}ms` }}
+        >
+          <BusCard bus={bus} onSelect={() => onBusSelect(bus)} />
+        </div>
       ))}
     </div>
   );
