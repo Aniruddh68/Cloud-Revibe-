@@ -76,7 +76,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({ buses, isLoading, 
     return (
       <button
         onClick={() => setSortBy(type)}
-        className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${isActive ? 'bg-brand-primary text-white' : 'bg-white text-gray-600 hover:bg-gray-100'}`}
+        className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-300 ${isActive ? 'bg-gradient-to-r from-brand-primary to-brand-dark text-white shadow-md scale-105' : 'bg-white text-gray-600 hover:bg-gray-100 hover:text-brand-primary'}`}
       >
         {children}
       </button>
@@ -84,12 +84,12 @@ export const SearchResults: React.FC<SearchResultsProps> = ({ buses, isLoading, 
   }
 
   return (
-    <div className="space-y-4">
-      <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between flex-wrap gap-2">
-        <p className="text-sm font-semibold text-gray-700">
-          Showing <span className="text-brand-primary">{sortedBuses.length}</span> buses
+    <div className="space-y-5">
+      <div className="bg-white p-4 rounded-xl shadow-soft border border-gray-200 flex items-center justify-between flex-wrap gap-3">
+        <p className="text-sm font-bold text-gray-900">
+          Showing <span className="text-brand-primary font-extrabold">{sortedBuses.length}</span> {sortedBuses.length === 1 ? 'bus' : 'buses'}
         </p>
-        <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-lg">
+        <div className="flex items-center gap-2 bg-gray-50 p-1.5 rounded-lg border border-gray-200">
           <span className="text-sm text-gray-600 hidden sm:block ml-2">Sort by:</span>
           {/* FIX: Added children to SortButton components to provide their labels. */}
           <SortButton type="departure">Departure</SortButton>

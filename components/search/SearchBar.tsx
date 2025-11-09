@@ -56,7 +56,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch, from, to, date, 
   };
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-xl -mt-20 relative z-10 border border-gray-100">
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-soft shadow-glow -mt-20 relative z-10 border border-gray-100">
       <form onSubmit={handleSearch} className="flex flex-col lg:flex-row items-center lg:items-end gap-4">
         
         <div className="w-full lg:flex-grow">
@@ -71,8 +71,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch, from, to, date, 
                 />
 
                 <div className="w-full sm:w-auto flex items-center justify-center bg-gray-50 sm:bg-transparent border-x sm:border-x-0 border-b sm:border-b-0 border-gray-200 sm:border-0 h-full">
-                     <button type="button" onClick={swapLocations} className="my-1 sm:my-0 sm:-mx-3 z-10 p-2.5 rounded-full bg-white border-2 border-gray-200 hover:border-brand-primary hover:text-brand-primary text-gray-500 transition-all duration-300 transform hover:rotate-180 focus:outline-none focus:ring-2 focus:ring-brand-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16V4m0 12l-4-4m4 4l4-4m6 8v-12m0 12l4-4m-4 4l-4-4" /></svg>
+                     <button type="button" onClick={swapLocations} className="my-1 sm:my-0 sm:-mx-3 z-10 p-3 rounded-full bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200 hover:border-brand-primary hover:text-brand-primary hover:shadow-md text-gray-500 transition-all duration-300 transform hover:rotate-180 focus:outline-none focus:ring-2 focus:ring-brand-primary active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 12l-4-4m4 4l4-4m6 8v-12m0 12l4-4m-4 4l-4-4" /></svg>
                     </button>
                 </div>
 
@@ -101,9 +101,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch, from, to, date, 
         
         <div className="w-full lg:w-auto">
           <label className="block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wider opacity-0 lg:block hidden">Search</label>
-          <button type="submit" className="w-full flex items-center justify-center gap-2 bg-brand-secondary hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-secondary">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-            <span>Search</span>
+          <button type="submit" className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-brand-secondary to-orange-600 hover:from-orange-600 hover:to-brand-secondary text-white font-bold py-3.5 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg active:scale-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            <span>Search Buses</span>
           </button>
         </div>
       </form>

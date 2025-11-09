@@ -114,10 +114,11 @@ const SearchPage: React.FC<SearchPageProps> = ({ onBusSelect }) => {
 
   return (
     <div>
-      <div className="bg-gradient-to-b from-brand-dark to-brand-primary pt-12 pb-28">
-          <div className="container mx-auto px-4 text-center text-white">
-              <h1 className="text-4xl md:text-5xl font-extrabold">Your Journey Begins Here</h1>
-              <p className="mt-4 text-lg text-blue-200 max-w-2xl mx-auto">Book bus tickets online with ease and comfort, and travel with our trusted partners.</p>
+      <div className="bg-gradient-to-br from-brand-dark via-brand-primary to-blue-700 pt-16 pb-32 relative overflow-hidden">
+          <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]"></div>
+          <div className="container mx-auto px-4 text-center text-white relative z-10">
+              <h1 className="text-4xl md:text-6xl font-black tracking-tight animate-fade-in-down">Your Journey Begins Here</h1>
+              <p className="mt-5 text-lg md:text-xl text-blue-100 max-w-2xl mx-auto font-medium animate-fade-in-down" style={{ animationDelay: '0.1s' }}>Book bus tickets online with ease and comfort, and travel with our trusted partners.</p>
           </div>
       </div>
       

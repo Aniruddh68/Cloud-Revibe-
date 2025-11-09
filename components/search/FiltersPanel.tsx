@@ -44,8 +44,8 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({ onFilterChange }) =>
   );
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 sticky top-24">
-      <h3 className="text-lg font-bold text-gray-800 mb-4 border-b border-gray-200 pb-3">Filter By</h3>
+    <div className="bg-white p-6 rounded-2xl shadow-soft border border-gray-200 sticky top-24">
+      <h3 className="text-lg font-bold text-gray-900 mb-5 pb-4 border-b-2 border-gray-100">Filter By</h3>
       
       <div>
         <h4 className="text-sm font-semibold text-gray-700 mb-3">Seat Type</h4>
