@@ -31,53 +31,53 @@ export const BusCard: React.FC<BusCardProps> = ({ bus, onSelect, isDetailView = 
   ).toFixed(1);
 
   return (
-    <div
-      className={`bg-white rounded-2xl border border-gray-200 p-5 transition-all duration-300 flex flex-col sm:flex-row gap-4 ${!isDetailView ? 'hover:shadow-soft hover:shadow-glow hover:border-brand-primary cursor-pointer hover:-translate-y-1.5' : 'shadow-soft'}`}
+    <div 
+      className={`bg-white rounded-xl border border-gray-200 p-4 transition-all duration-300 flex flex-col sm:flex-row gap-4 ${!isDetailView ? 'hover:shadow-lg hover:border-brand-primary cursor-pointer hover:-translate-y-1' : 'shadow-sm'}`} 
       onClick={onSelect}>
-
+      
       {/* Main content: Operator, Timings, Amenities */}
       <div className="flex-grow">
           {/* Top section: Operator name and rating */}
-          <div className="flex justify-between items-start mb-1">
+          <div className="flex justify-between items-start">
               <div>
-                  <h3 className="text-lg font-bold text-gray-900 tracking-tight">{bus.operator_details.name}</h3>
-                  <p className="text-sm text-gray-500 mt-0.5 font-medium">
+                  <h3 className="text-lg font-bold text-gray-800">{bus.operator_details.name}</h3>
+                  <p className="text-sm text-gray-500">
                       {bus.amenities.slice(0, 4).join(' • ')}
                   </p>
               </div>
-              <div className="flex items-center gap-1.5 bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 px-3 py-1.5 rounded-full text-sm font-bold shadow-sm border border-green-100">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-green-600" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+              <div className="flex items-center gap-1 bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm font-bold">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
                   <span>{avgRating}</span>
               </div>
           </div>
 
           {/* Middle section: Timings */}
-          <div className="flex items-center gap-3 sm:gap-4 my-5">
+          <div className="flex items-center gap-2 sm:gap-4 my-4">
               <div className="text-left">
-                  <p className="text-2xl font-bold text-gray-900 tracking-tight">{formatTime(bus.departure_time)}</p>
-                  <p className="text-sm font-semibold text-gray-500 mt-0.5">{bus.route_from}</p>
+                  <p className="text-xl font-semibold text-gray-900">{formatTime(bus.departure_time)}</p>
+                  <p className="text-sm font-bold text-gray-600">{bus.route_from}</p>
               </div>
-              <div className="flex-grow text-center px-2">
-                  <p className="text-xs font-semibold text-gray-500 mb-1.5">{bus.duration}</p>
-                  <div className="w-full h-0.5 bg-gradient-to-r from-brand-primary via-brand-primary/50 to-brand-primary relative">
-                      <div className="w-2.5 h-2.5 rounded-full bg-brand-primary border-2 border-white shadow-sm absolute top-1/2 -translate-y-1/2 left-0"></div>
-                      <div className="w-2.5 h-2.5 rounded-full bg-brand-primary border-2 border-white shadow-sm absolute top-1/2 -translate-y-1/2 right-0"></div>
+              <div className="flex-grow text-center">
+                  <p className="text-xs text-gray-500">{bus.duration}</p>
+                  <div className="w-full h-px bg-gray-200 relative mt-1">
+                      <div className="w-2 h-2 rounded-full bg-gray-400 absolute top-1/2 -translate-y-1/2 left-0"></div>
+                      <div className="w-2 h-2 rounded-full bg-gray-400 absolute top-1/2 -translate-y-1/2 right-0"></div>
                   </div>
               </div>
               <div className="text-right">
-                  <p className="text-2xl font-bold text-gray-900 tracking-tight">{formatTime(bus.arrival_time)}</p>
-                  <p className="text-sm font-semibold text-gray-500 mt-0.5">{bus.route_to}</p>
+                  <p className="text-xl font-semibold text-gray-900">{formatTime(bus.arrival_time)}</p>
+                  <p className="text-sm font-bold text-gray-600">{bus.route_to}</p>
               </div>
           </div>
           
           {/* Bottom section: Primo and Amenities */}
-          <div className="flex items-center justify-between border-t border-gray-100 pt-3.5">
-              <div className="flex items-center gap-3.5">
+          <div className="flex items-center justify-between border-t border-gray-100 pt-3">
+              <div className="flex items-center gap-3">
                   {bus.amenities.slice(0, 5).map(a => <AmenityIcon key={a} amenity={a} />)}
               </div>
               {bus.operator_details.primo_flag && (
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-amber-50 to-orange-50 text-orange-700 border border-orange-200 shadow-sm">
-                    <svg className="w-4 h-4 mr-1.5 text-orange-600" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-rose-100 text-rose-800">
+                    <svg className="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
                     Primo Bus
                   </span>
               )}
@@ -85,15 +85,13 @@ export const BusCard: React.FC<BusCardProps> = ({ bus, onSelect, isDetailView = 
       </div>
 
       {/* Fare and Action Button */}
-      <div className="sm:border-l border-gray-200 sm:pl-5 flex flex-row sm:flex-col justify-between items-center sm:w-44 sm:py-4">
+      <div className="sm:border-l border-gray-200 sm:pl-4 flex flex-row sm:flex-col justify-between items-center sm:w-40 sm:py-4">
         <div className="text-left sm:text-center">
-          <p className="text-3xl font-black text-brand-primary tracking-tight">₹{bus.fare}</p>
-          <p className="text-xs font-semibold text-gray-500 mt-1">
-            <span className={`${bus.seats_available < 10 ? 'text-red-500' : 'text-green-600'}`}>{bus.seats_available}</span> seats left
-          </p>
+          <p className="text-2xl font-extrabold text-brand-primary">₹{bus.fare}</p>
+          <p className="text-xs text-gray-500 -mt-1">{bus.seats_available} seats left</p>
         </div>
         {!isDetailView &&
-          <button className="mt-0 sm:mt-auto w-auto sm:w-full bg-gradient-to-r from-brand-secondary to-orange-600 hover:from-orange-600 hover:to-brand-secondary text-white font-bold py-2.5 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
+          <button className="mt-0 sm:mt-auto w-auto sm:w-full bg-brand-secondary hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105">
             Select Seats
           </button>
         }

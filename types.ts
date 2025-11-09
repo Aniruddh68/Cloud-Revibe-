@@ -104,3 +104,9 @@ export interface Testimonial {
   rating: number; // e.g., 4 or 5
   comment: string;
 }
+
+export interface TripSuggestion {
+  from: string;
+  to: string;
+  reasoning: string;
+}

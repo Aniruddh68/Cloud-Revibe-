@@ -10,6 +10,7 @@ import { PopularRoutes } from '../home/PopularRoutes';
 import { WhyChooseUs } from '../home/WhyChooseUs';
 import { OffersSection } from '../home/OffersSection';
 import { TestimonialsSection } from '../home/TestimonialsSection';
+import { AITripPlanner } from '../home/AITripPlanner';
 
 
 interface SearchPageProps {
@@ -52,6 +53,12 @@ const SearchPage: React.FC<SearchPageProps> = ({ onBusSelect }) => {
     setTo(selectedTo);
     // Trigger search immediately with the new values to avoid stale state issues
     handleSearch({ from: selectedFrom, to: selectedTo }); 
+  }, [handleSearch]);
+
+  const handleSuggestionSelect = useCallback((suggestedFrom: string, suggestedTo: string) => {
+    setFrom(suggestedFrom);
+    setTo(suggestedTo);
+    handleSearch({ from: suggestedFrom, to: suggestedTo });
   }, [handleSearch]);
 
   useEffect(() => {
@@ -114,24 +121,26 @@ const SearchPage: React.FC<SearchPageProps> = ({ onBusSelect }) => {
 
   return (
     <div>
-      <div className="bg-gradient-to-br from-brand-dark via-brand-primary to-blue-700 pt-16 pb-32 relative overflow-hidden">
-          <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]"></div>
-          <div className="container mx-auto px-4 text-center text-white relative z-10">
-              <h1 className="text-4xl md:text-6xl font-black tracking-tight animate-fade-in-down">Your Journey Begins Here</h1>
-              <p className="mt-5 text-lg md:text-xl text-blue-100 max-w-2xl mx-auto font-medium animate-fade-in-down" style={{ animationDelay: '0.1s' }}>Book bus tickets online with ease and comfort, and travel with our trusted partners.</p>
+      <div className="bg-gradient-to-b from-brand-dark to-brand-primary pt-12 pb-32">
+          <div className="container mx-auto px-4 text-center text-white">
+              <h1 className="text-4xl md:text-5xl font-extrabold">Your Journey Begins Here</h1>
+              <p className="mt-4 text-lg text-blue-200 max-w-2xl mx-auto">Book bus tickets online with ease and comfort, or let our AI find the perfect trip for you.</p>
           </div>
       </div>
       
       <div className="container mx-auto px-4">
-          <SearchBar 
-              onSearch={() => handleSearch()}
-              from={from}
-              to={to}
-              date={date}
-              setFrom={setFrom}
-              setTo={setTo}
-              setDate={setDate}
-          />
+          <div className="-mt-24 relative z-10">
+              {!searchPerformed && <AITripPlanner onSuggestionSelect={handleSuggestionSelect} />}
+              <SearchBar 
+                  onSearch={() => handleSearch()}
+                  from={from}
+                  to={to}
+                  date={date}
+                  setFrom={setFrom}
+                  setTo={setTo}
+                  setDate={setDate}
+              />
+          </div>
           
           <div ref={resultsRef} className="mt-12 mb-12 scroll-mt-24">
               {!searchPerformed ? (

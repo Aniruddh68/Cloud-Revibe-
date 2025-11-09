@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User } from '../../types';
 
 interface MyAccountPageProps {
@@ -14,6 +14,34 @@ const MyAccountPage: React.FC<MyAccountPageProps> = ({ user, onUpdateUser }) => 
         email: user.email,
         phone: user.phone,
     });
+    const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
+    const [isFormDirty, setIsFormDirty] = useState(false);
+
+
+    const validateForm = (data: typeof formData) => {
+        const errors: { [key: string]: string } = {};
+        if (!data.name.trim()) {
+            errors.name = 'Name cannot be empty.';
+        }
+        if (!/^\S+@\S+\.\S+$/.test(data.email)) {
+            errors.email = 'Please enter a valid email address.';
+        }
+        if (!/^\d{10}$/.test(data.phone)) {
+            errors.phone = 'Phone number must be 10 digits.';
+        }
+        return errors;
+    };
+
+    useEffect(() => {
+        if (isEditing) {
+            const errors = validateForm(formData);
+            setFormErrors(errors);
+            
+            const hasChanged = formData.name !== user.name || formData.email !== user.email || formData.phone !== user.phone;
+            setIsFormDirty(hasChanged);
+        }
+    }, [formData, user, isEditing]);
+
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
@@ -22,12 +50,18 @@ const MyAccountPage: React.FC<MyAccountPageProps> = ({ user, onUpdateUser }) => 
 
     const handleSave = (e: React.FormEvent) => {
         e.preventDefault();
+        const errors = validateForm(formData);
+        if (Object.keys(errors).length > 0) {
+            setFormErrors(errors);
+            return;
+        }
         onUpdateUser({ ...user, ...formData });
         setIsEditing(false);
     }
 
     const handleCancel = () => {
         setFormData({ name: user.name, email: user.email, phone: user.phone });
+        setFormErrors({});
         setIsEditing(false);
     }
 
@@ -38,7 +72,13 @@ const MyAccountPage: React.FC<MyAccountPageProps> = ({ user, onUpdateUser }) => 
         </div>
     );
     
-    const InputRow: React.FC<{label: string, id: 'name' | 'email' | 'phone', value: string, type?: string}> = ({label, id, value, type='text'}) => (
+    const InputRow: React.FC<{
+        label: string;
+        id: 'name' | 'email' | 'phone';
+        value: string;
+        error?: string;
+        type?: string;
+    }> = ({label, id, value, error, type='text'}) => (
         <div>
             <label htmlFor={id} className="block text-sm font-medium text-gray-600 mb-1">{label}</label>
             <input 
@@ -46,11 +86,16 @@ const MyAccountPage: React.FC<MyAccountPageProps> = ({ user, onUpdateUser }) => 
                 id={id} 
                 value={value} 
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-transparent transition" 
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:border-transparent transition ${
+                    error ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-brand-primary'
+                }`}
                 required
             />
+            {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
         </div>
     );
+    
+    const canSave = isFormDirty && Object.keys(formErrors).length === 0;
 
     return (
         <div className="max-w-4xl mx-auto space-y-8">
@@ -68,11 +113,11 @@ const MyAccountPage: React.FC<MyAccountPageProps> = ({ user, onUpdateUser }) => 
 
                     {isEditing ? (
                         <form onSubmit={handleSave} className="space-y-4">
-                            <InputRow label="Full Name" id="name" value={formData.name} />
-                            <InputRow label="Email Address" id="email" value={formData.email} type="email" />
-                            <InputRow label="Phone Number" id="phone" value={formData.phone} type="tel" />
+                            <InputRow label="Full Name" id="name" value={formData.name} error={formErrors.name} />
+                            <InputRow label="Email Address" id="email" value={formData.email} type="email" error={formErrors.email} />
+                            <InputRow label="Phone Number" id="phone" value={formData.phone} type="tel" error={formErrors.phone} />
                             <div className="flex gap-4 pt-4">
-                                <button type="submit" className="w-full bg-brand-secondary hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg transition">Save Changes</button>
+                                <button type="submit" disabled={!canSave} className="w-full bg-brand-secondary hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg transition disabled:bg-gray-300 disabled:cursor-not-allowed">Save Changes</button>
                                 <button type="button" onClick={handleCancel} className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition">Cancel</button>
                             </div>
                         </form>
